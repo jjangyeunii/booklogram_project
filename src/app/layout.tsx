@@ -22,7 +22,7 @@ export default function RootLayout({
               <Navbar />
             </div>
           </header>
-          <main>{children}</main>
+          <main className="max-w-screen-xl mx-auto">{children}</main>
         </AuthContext>
       </body>
     </html>

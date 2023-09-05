@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { getProviders } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Signin from "@/components/Signin";
+import { FcGoogle } from "react-icons/fc";
 
 type Props = {
   searchParams: {
@@ -19,7 +20,7 @@ export default async function SignInPage({
   }
   const providers = (await getProviders()) ?? {};
   return (
-    <section>
+    <section className="flex justify-center">
       <Signin providers={providers} callbackUrl={callbackUrl} />
     </section>
   );
