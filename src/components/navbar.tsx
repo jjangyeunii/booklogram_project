@@ -6,25 +6,32 @@ import { RiSearchLine } from "react-icons/ri";
 import { BsPlusSquare } from "react-icons/bs";
 import { signOut, useSession } from "next-auth/react";
 
+const SIGN_BUTTON_CLASS =
+  "bg-sky-500 text-white px-2 py-1 rounded-md hover:bg-sky-400";
+
 export default function Navbar() {
   const { data: session } = useSession();
   return (
-    <nav>
-      <header>Booklogram</header>
-      <section>
+    <nav className="flex justify-between items-center px-6">
+      <h1 className="text-3xl font-bold">Booklogram</h1>
+      <section className="flex items-center gap-3">
         <Link href="/">
-          <AiOutlineHome />
+          <AiOutlineHome size={24} />
         </Link>
         <Link href="/search">
-          <RiSearchLine />
+          <RiSearchLine size={24} />
         </Link>
         <Link href="/new">
-          <BsPlusSquare />
+          <BsPlusSquare size={24} />
         </Link>
         {session ? (
-          <button onClick={() => signOut()}>Sign out</button>
+          <button className={SIGN_BUTTON_CLASS} onClick={() => signOut()}>
+            Sign out
+          </button>
         ) : (
-          <Link href="/auth/signin">Sign in</Link>
+          <Link href="/auth/signin" className={SIGN_BUTTON_CLASS}>
+            Sign in
+          </Link>
         )}
       </section>
     </nav>

@@ -1,10 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Navbar from "@/components/navbar";
 import AuthContext from "@/context/AuthContext";
-
-const inter = Inter({ subsets: ["latin"] });
+import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,12 +15,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="w-full">
         <AuthContext>
-          <div>
-            <Navbar />
-            <main>{children}</main>
-          </div>
+          <header className="sticky top-0 bg-white z-10 border-b">
+            <div className="max-w-screen-xl mx-auto py-3">
+              <Navbar />
+            </div>
+          </header>
+          <main>{children}</main>
         </AuthContext>
       </body>
     </html>
