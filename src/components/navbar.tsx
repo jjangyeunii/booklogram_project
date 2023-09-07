@@ -28,7 +28,7 @@ export default function Navbar() {
         </Link>
         {user && (
           <Link href={`/user/${user.username}`}>
-            <Avatar size="[38px]" image={user.image} />
+            <Avatar size="w-[38px] h-[38px]" image={user.image} />
           </Link>
         )}
         {session ? (
