@@ -54,7 +54,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{type: 'post'}],
+          to: [{type: 'bookpost'}],
         },
       ],
       validation: (Rule) => Rule.unique(),

@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
+import { addUser } from "@/service/user";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -23,6 +24,31 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.NAVER_CLIENT_SECRET || "",
     }),
   ],
+  callbacks: {
+    async signIn({ user: { id, name, image, email } }) {
+      if (!email) {
+        return false;
+      }
+      addUser({
+        id,
+        name: name || "",
+        image,
+        email,
+        username: email?.split("@")[0] || "",
+      });
+      return true;
+    },
+    async session({ session }) {
+      const user = session?.user;
+      if (user) {
+        session.user = {
+          ...user,
+          username: user.email?.split("@")[0] || "",
+        };
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: "/auth/signin",
   },
