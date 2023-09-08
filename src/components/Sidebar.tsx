@@ -7,7 +7,7 @@ type Props = {
 
 export default function Sidebar({ user: { username, name, image } }: Props) {
   return (
-    <section className="py-6">
+    <section className="py-6 ml-6">
       <div className="flex items-center">
         {image && <Avatar size="w-[60px]-[60px]" image={image} />}
         <div className="ml-4">

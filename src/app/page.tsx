@@ -13,7 +13,7 @@ export default async function Home() {
   // console.log(session);
   return (
     <section className="w-full flex flex-col md:flex-row px-6">
-      <div className="w-full flex flex-col items-center basis-3/4 py-6">
+      <div className="w-full basis-3/4 min-w-0 py-6">
         <Followingbar />
       </div>
       <div className="basis-1/4">
