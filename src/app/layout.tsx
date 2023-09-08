@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import AuthContext from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
+import SWRConfigContext from "@/context/SWRConfigContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +23,9 @@ export default function RootLayout({
               <Navbar />
             </div>
           </header>
-          <main className="max-w-screen-xl mx-auto">{children}</main>
+          <main className="max-w-screen-xl mx-auto">
+            <SWRConfigContext>{children}</SWRConfigContext>
+          </main>
         </AuthContext>
       </body>
     </html>
