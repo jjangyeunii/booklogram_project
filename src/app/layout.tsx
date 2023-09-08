@@ -23,7 +23,7 @@ export default function RootLayout({
               <Navbar />
             </div>
           </header>
-          <main className="max-w-screen-xl mx-auto">
+          <main className="max-w-screen-xl h-full mx-auto bg-neutral-50">
             <SWRConfigContext>{children}</SWRConfigContext>
           </main>
         </AuthContext>
