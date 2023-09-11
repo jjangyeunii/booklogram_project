@@ -6,7 +6,7 @@ export default {
     {
       title: 'Author',
       name: 'author',
-      type: 'string',
+      type: 'reference',
       to: [{type: 'user'}],
     },
     {
@@ -17,6 +17,11 @@ export default {
     {
       title: 'Booktitle',
       name: 'booktitle',
+      type: 'string',
+    },
+    {
+      title: 'BookAuthor',
+      name: 'bookauthor',
       type: 'string',
     },
     {
