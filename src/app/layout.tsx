@@ -17,16 +17,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="w-full">
-        <AuthContext>
-          <header className="sticky top-0 bg-white z-10 border-b">
-            <div className="max-w-screen-xl mx-auto py-3">
-              <Navbar />
-            </div>
-          </header>
-          <main className="max-w-screen-xl h-full mx-auto bg-neutral-50">
-            <SWRConfigContext>{children}</SWRConfigContext>
-          </main>
-        </AuthContext>
+        <div id="portal">
+          <AuthContext>
+            <header className="sticky top-0 bg-white z-10 border-b">
+              <div className="max-w-screen-xl mx-auto py-3">
+                <Navbar />
+              </div>
+            </header>
+            <main className="max-w-screen-xl h-full mx-auto bg-neutral-50">
+              <SWRConfigContext>{children}</SWRConfigContext>
+            </main>
+          </AuthContext>
+        </div>
       </body>
     </html>
   );

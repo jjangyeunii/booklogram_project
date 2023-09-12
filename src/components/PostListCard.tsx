@@ -5,7 +5,9 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { RiBookmarkLine } from "react-icons/ri";
 import { BiSmile } from "react-icons/bi";
 import { parseDate } from "@/util/date";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import ModalPortal from "./ui/ModalPortal";
+import PostModal from "./PostModal";
 
 type Props = {
   post: Simplepost;
@@ -23,6 +25,7 @@ export default function PostListCard({ post, priority = false }: Props) {
     likes,
     createdAt,
   } = post;
+  const [openModal, setOpenModal] = useState(false);
   return (
     <article className="w-full flex flex-col justify-center items-center rounded-md bg-neutral-50 shadow-md mr-4 border border-gray-200">
       <div className="w-full flex items-center p-3">
@@ -36,6 +39,7 @@ export default function PostListCard({ post, priority = false }: Props) {
         width={500}
         height={500}
         priority={priority}
+        onClick={() => setOpenModal(true)}
       />
       <div className="w-full flex py-3 px-5 justify-between">
         <AiOutlineHeart size={30} />
@@ -67,6 +71,13 @@ export default function PostListCard({ post, priority = false }: Props) {
           Post
         </button>
       </form>
+      {openModal && (
+        <ModalPortal>
+          <PostModal onClose={() => setOpenModal(false)}>
+            <p>book post detail</p>
+          </PostModal>
+        </ModalPortal>
+      )}
     </article>
   );
 }
