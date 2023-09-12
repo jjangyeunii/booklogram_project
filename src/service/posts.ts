@@ -24,3 +24,23 @@ export async function getFollowingPostsOf(username: string) {
       posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
     );
 }
+
+export async function getPostById(id: string) {
+  return client
+    .fetch(
+      `*[_type == "bookpost" && _id == "${id}"][0]{
+      "id":_id,
+      "booktitle": booktitle,
+      "bookauthor": bookauthor,
+      "bookreview": bookreview,
+      "bookshort": comments[0].comment,
+      "username": author->username,
+      "userImage": author->image,
+      "image": photo,
+      "likes": likes[]->username,
+      comments[]{comment, "username": author->username, "image": author->image},
+      "createdAt":_createdAt,
+    }`
+    )
+    .then((post) => ({ ...post, image: urlFor(post.image) }));
+}

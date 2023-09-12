@@ -8,6 +8,7 @@ import { parseDate } from "@/util/date";
 import { FormEvent, useState } from "react";
 import ModalPortal from "./ui/ModalPortal";
 import PostModal from "./PostModal";
+import PostDetail from "./PostDetail";
 
 type Props = {
   post: Simplepost;
@@ -74,7 +75,7 @@ export default function PostListCard({ post, priority = false }: Props) {
       {openModal && (
         <ModalPortal>
           <PostModal onClose={() => setOpenModal(false)}>
-            <p>book post detail</p>
+            <PostDetail post={post} />
           </PostModal>
         </ModalPortal>
       )}
