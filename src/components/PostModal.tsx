@@ -21,7 +21,7 @@ export default function PostModal({ onClose, children }: Props) {
       >
         <CgCloseO size={35} />
       </button>
-      {children}
+      <div className="bg-white w-4/5 h-5/6 max-w-7xl">{children}</div>
     </section>
   );
 }
