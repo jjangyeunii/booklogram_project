@@ -29,7 +29,7 @@ export default function PostListCard({ post, priority = false }: Props) {
   const [openModal, setOpenModal] = useState(false);
   return (
     <article className="w-full flex flex-col justify-center items-center rounded-md bg-neutral-50 shadow-md mr-4 border border-gray-200">
-      <div className="w-full flex items-center p-3">
+      <div className="w-full flex items-center p-3 md:py-2">
         <Avatar image={userImage} size="w-[58px] h-[58px]" />
         <p className="ml-3 font-bold text-xl">{post.username}</p>
       </div>

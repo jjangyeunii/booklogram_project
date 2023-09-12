@@ -18,7 +18,7 @@ export default function PostList() {
       ) : (
         (!posts || posts.length === 0) && <p>{`You don't have posts`}</p>
       )}
-      <ul className="w-full mt-8 flex flex-col gap-3">
+      <ul className="w-full mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
         {posts &&
           posts.map((post, idx) => (
             <li key={post.id}>

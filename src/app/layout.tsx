@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="w-full min-h-screen">
+      <body className="w-full">
         <div id="portal">
           <AuthContext>
             <header className="sticky top-0 bg-white z-10 border-b">
@@ -22,7 +22,7 @@ export default function RootLayout({
                 <Navbar />
               </div>
             </header>
-            <main className="max-w-screen-xl h-screen mx-auto bg-neutral-50">
+            <main className="max-w-screen-xl h-auto mx-auto bg-neutral-50">
               <SWRConfigContext>{children}</SWRConfigContext>
             </main>
           </AuthContext>
