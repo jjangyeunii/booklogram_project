@@ -12,3 +12,11 @@ export type DetailUser = AuthUser & {
   followers: SimpleUser[];
   bookmarks: string[];
 };
+
+export type ProfileUser = {
+  username: string;
+  name: string;
+  image?: string;
+  following: number;
+  followers: number;
+};
