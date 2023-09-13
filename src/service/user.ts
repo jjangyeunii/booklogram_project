@@ -31,3 +31,17 @@ export async function getUserByUsername(username: string) {
     "bookmarks":bookmarks[]->id
   }`);
 }
+
+export async function searchUsers(keyword?: string) {
+  const keywordQuery = keyword
+    ? `&& (name match "${keyword}") || (username match "${keyword}")`
+    : "";
+  return client.fetch(`*[_type == "user" ${keywordQuery}]{
+    "id": _id,
+    "name": name,
+    "username": username,
+    "image": image,
+    "following": count(following),
+    "followers": count(followers),
+  }`);
+}
