@@ -4,6 +4,7 @@ import { ProfileUser } from "@/model/user";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { HashLoader } from "react-spinners";
 import useSWR from "swr";
+import UserCard from "./UserCard";
 
 export default function SearchUser() {
   const [keyword, setKeyword] = useState("");
@@ -43,7 +44,7 @@ export default function SearchUser() {
         {users &&
           users.map((user) => (
             <li key={user.name}>
-              <p>{user.username}</p>
+              <UserCard user={user} />
             </li>
           ))}
       </ul>
