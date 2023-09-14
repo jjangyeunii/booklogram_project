@@ -10,5 +10,9 @@ type Props = {
 export default async function UserPage({ params: { username } }: Props) {
   const user = await getUserProfile(username);
   if (!user) notFound();
-  return <UserProfile user={user} />;
+  return (
+    <section className="flex flex-col items-center">
+      <UserProfile user={user} />
+    </section>
+  );
 }
