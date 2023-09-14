@@ -13,10 +13,14 @@ export type DetailUser = AuthUser & {
   bookmarks: string[];
 };
 
-export type ProfileUser = {
+export type SearchResultUser = {
   username: string;
   name: string;
   image?: string;
   following: number;
   followers: number;
+};
+
+export type ProfileUser = SearchResultUser & {
+  posts: number;
 };

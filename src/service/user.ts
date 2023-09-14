@@ -44,3 +44,23 @@ export async function searchUsers(keyword?: string) {
     "followers": count(followers),
   }`);
 }
+
+export async function getUserProfile(username: string) {
+  return client
+    .fetch(
+      `*[_type == "user" && username == "${username}"][0]{
+    "username": username,
+    "name": name,
+    "image": image,
+    "following": count(following),
+    "followers": count(followers),
+    "posts": count(*[_type == "bookpost" && author->username == "${username}"])
+  }`
+    )
+    .then((user) => ({
+      ...user,
+      following: user.following ?? 0,
+      followers: user.followers ?? 0,
+      posts: user.posts ?? 0,
+    }));
+}
