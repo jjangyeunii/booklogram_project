@@ -44,3 +44,33 @@ export async function getPostById(id: string) {
     )
     .then((post) => ({ ...post, image: urlFor(post.image) }));
 }
+
+export async function getPostsOf(username: string) {
+  return client
+    .fetch(
+      `*[_type == "bookpost" && author->username == "${username}"] | order(_createdAt desc){${simplePostprojection}}`
+    )
+    .then((posts) =>
+      posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
+    );
+}
+
+export async function getLikedPostsOf(username: string) {
+  return client
+    .fetch(
+      `*[_type == "bookpost" && "${username}" in likes[]->username] | order(_createdAt desc){${simplePostprojection}}`
+    )
+    .then((posts) =>
+      posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
+    );
+}
+
+export async function getSavedPostsOf(username: string) {
+  return client
+    .fetch(
+      `*[_type == "bookpost" && _id in *[_type == "user" && username == "${username}"].bookmarks[]._ref] | order(_createdAt desc){${simplePostprojection}}`
+    )
+    .then((posts) =>
+      posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
+    );
+}

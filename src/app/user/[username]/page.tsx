@@ -1,3 +1,4 @@
+import UserPosts from "@/components/UserPosts";
 import UserProfile from "@/components/UserProfile";
 import { ProfileUser } from "@/model/user";
 import { getUserProfile } from "@/service/user";
@@ -13,6 +14,7 @@ export default async function UserPage({ params: { username } }: Props) {
   return (
     <section className="flex flex-col items-center">
       <UserProfile user={user} />
+      <UserPosts user={user} />
     </section>
   );
 }
