@@ -12,7 +12,7 @@ export default async function UserPage({ params: { username } }: Props) {
   const user = await getUserProfile(username);
   if (!user) notFound();
   return (
-    <section className="flex flex-col items-center">
+    <section className="w-full">
       <UserProfile user={user} />
       <UserPosts user={user} />
     </section>

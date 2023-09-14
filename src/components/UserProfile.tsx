@@ -8,7 +8,7 @@ type Props = {
 export default function UserProfile({ user }: Props) {
   const { username, name, image, following, followers, posts } = user;
   return (
-    <section className="my-14 flex flex-col items-center md:flex-row">
+    <section className="w-full justify-center my-14 flex flex-col items-center md:flex-row">
       <Avatar image={image} size="w-[150px] h-[150px]" />
       <div className="flex flex-col items-center md:ml-6 md:items-start">
         <div className="flex flex-col items-center my-3 gap-3 md:flex-row">
