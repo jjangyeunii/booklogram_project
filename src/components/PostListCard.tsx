@@ -1,14 +1,15 @@
 import { Simplepost } from "@/model/post";
 import Avatar from "./Avatar";
 import Image from "next/image";
-import { AiOutlineHeart } from "react-icons/ai";
-import { RiBookmarkLine } from "react-icons/ri";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import { BiSmile } from "react-icons/bi";
 import { parseDate } from "@/util/date";
 import { FormEvent, useState } from "react";
 import ModalPortal from "./ui/ModalPortal";
 import PostModal from "./PostModal";
 import PostDetail from "./PostDetail";
+import ToggleButton from "./ui/ToggleButton";
 
 type Props = {
   post: Simplepost;
@@ -27,6 +28,8 @@ export default function PostListCard({ post, priority = false }: Props) {
     createdAt,
   } = post;
   const [openModal, setOpenModal] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
   return (
     <article className="w-full flex flex-col justify-center items-center rounded-md bg-neutral-50 shadow-md mr-4 border border-gray-200">
       <div className="w-full flex items-center p-3 md:py-2">
@@ -43,8 +46,18 @@ export default function PostListCard({ post, priority = false }: Props) {
         onClick={() => setOpenModal(true)}
       />
       <div className="w-full flex py-3 px-5 justify-between">
-        <AiOutlineHeart size={30} />
-        <RiBookmarkLine size={30} />
+        <ToggleButton
+          toggled={liked}
+          onToggled={setLiked}
+          onIcon={<AiFillHeart className="fill-red-500" size={30} />}
+          offIcon={<AiOutlineHeart size={30} />}
+        />
+        <ToggleButton
+          toggled={saved}
+          onToggled={setSaved}
+          onIcon={<RiBookmarkFill size={30} />}
+          offIcon={<RiBookmarkLine size={30} />}
+        />
       </div>
       <div className="w-full flex flex-col px-5">
         <p className="font-bold text-lg my-2">{`${

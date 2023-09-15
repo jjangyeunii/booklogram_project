@@ -1,12 +1,13 @@
 import { FullPost, Simplepost } from "@/model/post";
 import { parseDate } from "@/util/date";
-import { FormEvent } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+import { FormEvent, useState } from "react";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiSmile } from "react-icons/bi";
-import { RiBookmarkLine } from "react-icons/ri";
+import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import useSWR from "swr";
 import Avatar from "./Avatar";
 import { DotLoader, BarLoader } from "react-spinners";
+import ToggleButton from "./ui/ToggleButton";
 
 type Props = {
   post: Simplepost;
@@ -18,6 +19,8 @@ export default function PostDetail({ post }: Props) {
   const comments = data?.comments;
   const bookauthor = data?.bookauthor;
   const bookreview = data?.bookreview;
+  const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   return (
     <section className="flex flex-col w-full h-full">
@@ -62,8 +65,18 @@ export default function PostDetail({ post }: Props) {
           )}
           <section className="w-full ">
             <div className="flex py-3 px-4 justify-between">
-              <AiOutlineHeart size={30} />
-              <RiBookmarkLine size={30} />
+              <ToggleButton
+                toggled={liked}
+                onToggled={setLiked}
+                onIcon={<AiFillHeart className="fill-red-500" size={30} />}
+                offIcon={<AiOutlineHeart size={30} />}
+              />
+              <ToggleButton
+                toggled={saved}
+                onToggled={setSaved}
+                onIcon={<RiBookmarkFill size={30} />}
+                offIcon={<RiBookmarkLine size={30} />}
+              />
             </div>
             <div className="flex flex-col px-5">
               <p className="font-bold text-lg my-2">{`${
