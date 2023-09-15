@@ -4,9 +4,10 @@ import { Simplepost } from "@/model/post";
 import { HashLoader } from "react-spinners";
 import useSWR from "swr";
 import PostListCard from "./PostListCard";
+import usePosts from "@/hooks/posts";
 
 export default function PostList() {
-  const { data: posts, isLoading } = useSWR<Simplepost[]>("/api/posts");
+  const { posts, isLoading } = usePosts();
   //   console.log(posts);
 
   return (
