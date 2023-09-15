@@ -10,6 +10,8 @@ import ModalPortal from "./ui/ModalPortal";
 import PostModal from "./PostModal";
 import PostDetail from "./PostDetail";
 import ToggleButton from "./ui/ToggleButton";
+import { useSession } from "next-auth/react";
+import { useSWRConfig } from "swr";
 
 type Props = {
   post: Simplepost;
@@ -18,6 +20,7 @@ type Props = {
 
 export default function PostListCard({ post, priority = false }: Props) {
   const {
+    id,
     username,
     userImage,
     image,
@@ -28,8 +31,20 @@ export default function PostListCard({ post, priority = false }: Props) {
     createdAt,
   } = post;
   const [openModal, setOpenModal] = useState(false);
-  const [liked, setLiked] = useState(false);
+  const { data: session } = useSession();
+  const user = session?.user;
+
+  const liked = user ? likes.includes(user.username) : false;
   const [saved, setSaved] = useState(false);
+
+  const { mutate } = useSWRConfig();
+  const handleLike = (like: boolean) => {
+    fetch("/api/likes", {
+      method: "PUT",
+      body: JSON.stringify({ id, like }),
+    }).then(() => mutate("/api/posts"));
+  };
+
   return (
     <article className="w-full flex flex-col justify-center items-center rounded-md bg-neutral-50 shadow-md mr-4 border border-gray-200">
       <div className="w-full flex items-center p-3 md:py-2">
@@ -48,7 +63,7 @@ export default function PostListCard({ post, priority = false }: Props) {
       <div className="w-full flex py-3 px-5 justify-between">
         <ToggleButton
           toggled={liked}
-          onToggled={setLiked}
+          onToggled={handleLike}
           onIcon={<AiFillHeart className="fill-red-500" size={30} />}
           offIcon={<AiOutlineHeart size={30} />}
         />

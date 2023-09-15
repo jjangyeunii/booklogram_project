@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   toggled: boolean;
-  onToggled: Dispatch<SetStateAction<boolean>>;
+  onToggled: (toggled: boolean) => void;
   onIcon: React.ReactNode;
   offIcon: React.ReactNode;
 };

@@ -4,10 +4,11 @@ import { FormEvent, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiSmile } from "react-icons/bi";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Avatar from "./Avatar";
 import { DotLoader, BarLoader } from "react-spinners";
 import ToggleButton from "./ui/ToggleButton";
+import { useSession } from "next-auth/react";
 
 type Props = {
   post: Simplepost;
@@ -19,8 +20,19 @@ export default function PostDetail({ post }: Props) {
   const comments = data?.comments;
   const bookauthor = data?.bookauthor;
   const bookreview = data?.bookreview;
-  const [liked, setLiked] = useState(false);
+  const { data: session } = useSession();
+  const user = session?.user;
+
+  const liked = user ? likes.includes(user.username) : false;
   const [saved, setSaved] = useState(false);
+
+  const { mutate } = useSWRConfig();
+  const handleLike = (like: boolean) => {
+    fetch("/api/likes", {
+      method: "PUT",
+      body: JSON.stringify({ id, like }),
+    }).then(() => mutate("/api/posts"));
+  };
 
   return (
     <section className="flex flex-col w-full h-full">
@@ -67,7 +79,7 @@ export default function PostDetail({ post }: Props) {
             <div className="flex py-3 px-4 justify-between">
               <ToggleButton
                 toggled={liked}
-                onToggled={setLiked}
+                onToggled={handleLike}
                 onIcon={<AiFillHeart className="fill-red-500" size={30} />}
                 offIcon={<AiOutlineHeart size={30} />}
               />

@@ -21,7 +21,11 @@ export async function getFollowingPostsOf(username: string) {
     | order(_createdAt desc){${simplePostprojection}}`
     )
     .then((posts) =>
-      posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
+      posts.map((post: Simplepost) => ({
+        ...post,
+        likes: post.likes ?? [],
+        image: urlFor(post.image),
+      }))
     );
 }
 
@@ -42,7 +46,11 @@ export async function getPostById(id: string) {
       "createdAt":_createdAt,
     }`
     )
-    .then((post) => ({ ...post, image: urlFor(post.image) }));
+    .then((post) => ({
+      ...post,
+      likes: post.likes ?? [],
+      image: urlFor(post.image),
+    }));
 }
 
 export async function getPostsOf(username: string) {
@@ -51,7 +59,11 @@ export async function getPostsOf(username: string) {
       `*[_type == "bookpost" && author->username == "${username}"] | order(_createdAt desc){${simplePostprojection}}`
     )
     .then((posts) =>
-      posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
+      posts.map((post: Simplepost) => ({
+        ...post,
+        likes: post.likes ?? [],
+        image: urlFor(post.image),
+      }))
     );
 }
 
@@ -61,7 +73,11 @@ export async function getLikedPostsOf(username: string) {
       `*[_type == "bookpost" && "${username}" in likes[]->username] | order(_createdAt desc){${simplePostprojection}}`
     )
     .then((posts) =>
-      posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
+      posts.map((post: Simplepost) => ({
+        ...post,
+        likes: post.likes ?? [],
+        image: urlFor(post.image),
+      }))
     );
 }
 
@@ -71,7 +87,11 @@ export async function getSavedPostsOf(username: string) {
       `*[_type == "bookpost" && _id in *[_type == "user" && username == "${username}"].bookmarks[]._ref] | order(_createdAt desc){${simplePostprojection}}`
     )
     .then((posts) =>
-      posts.map((post: Simplepost) => ({ ...post, image: urlFor(post.image) }))
+      posts.map((post: Simplepost) => ({
+        ...post,
+        likes: post.likes ?? [],
+        image: urlFor(post.image),
+      }))
     );
 }
 
