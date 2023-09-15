@@ -30,7 +30,7 @@ export default function PostDetail({ post }: Props) {
   const { setLike } = usePosts();
   const handleLike = (like: boolean) => {
     if (user) {
-      setLike(post, like);
+      setLike(post, user.username, like);
     }
   };
 
