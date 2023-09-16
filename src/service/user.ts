@@ -24,8 +24,11 @@ export async function addUser({ id, username, name, email, image }: OAuthUser) {
 
 export async function getUserByUsername(username: string) {
   return client.fetch(`*[_type == "user" && username == "${username}"][0]{
-    ...,
     "id":_id,
+    username,
+    name,
+    email,
+    image,
     following[]->{username,image},
     followers[]->{username,image},
     "bookmarks":bookmarks[]->id
@@ -34,12 +37,10 @@ export async function getUserByUsername(username: string) {
 
 export async function searchUsers(keyword?: string) {
   const keywordQuery = keyword
-    ? `&& (name match "*${keyword}*") || (username match "*${keyword}*")`
+    ? `&& (name match "${keyword}*") || (username match "${keyword}*")`
     : "";
   return client.fetch(`*[_type == "user" ${keywordQuery}]{
-    "username": username,
-    "name": name,
-    "image": image,
+    ...,
     "following": count(following),
     "followers": count(followers),
   }`);
@@ -49,13 +50,13 @@ export async function getUserProfile(username: string) {
   return client
     .fetch(
       `*[_type == "user" && username == "${username}"][0]{
-    "username": username,
-    "name": name,
-    "image": image,
-    "following": count(following),
-    "followers": count(followers),
-    "posts": count(*[_type == "bookpost" && author->username == "${username}"])
-  }`
+      username,
+      name,
+      image,
+      "following": count(following),
+      "followers": count(followers),
+      "posts": count(*[_type == "bookpost" && author->username == "${username}"])
+    }`
     )
     .then((user) => ({
       ...user,

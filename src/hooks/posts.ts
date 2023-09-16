@@ -1,3 +1,4 @@
+import { useCacheKeys } from "@/context/CacheKeysContext";
 import { Simplepost } from "@/model/post";
 import useSWR from "swr";
 
@@ -9,12 +10,13 @@ async function updateLike(id: string, like: boolean) {
 }
 
 export default function usePosts() {
+  const cacheKeys = useCacheKeys();
   const {
     data: posts,
     isLoading,
     error,
     mutate,
-  } = useSWR<Simplepost[]>("/api/posts");
+  } = useSWR<Simplepost[]>(cacheKeys.postsKey);
 
   const setLike = (post: Simplepost, username: string, like: boolean) => {
     const newPost = {

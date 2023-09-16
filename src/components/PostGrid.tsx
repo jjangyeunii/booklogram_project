@@ -1,19 +1,10 @@
-import { Simplepost } from "@/model/post";
 import { FadeLoader } from "react-spinners";
-import useSWR from "swr";
 import PostGridCard from "./PostGridCard";
+import usePosts from "@/hooks/posts";
 
-type Props = {
-  username: string;
-  query: string;
-};
-
-export default function PostGrid({ username, query }: Props) {
-  const {
-    data: posts,
-    isLoading,
-    error,
-  } = useSWR<Simplepost[]>(`/api/users/${username}/${query}`);
+export default function PostGrid() {
+  const { posts, isLoading } = usePosts();
+  // console.log(posts);
   return (
     <section className="w-full text-center">
       {isLoading && (

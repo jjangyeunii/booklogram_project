@@ -3,14 +3,14 @@ import { client, urlFor } from "./sanity";
 
 const simplePostprojection = `
     "id":_id,
-    "booktitle": booktitle,
+    booktitle,
     "username": author->username,
     "userImage": author->image,
     "image": photo,
     "bookshort": comments[0].comment,
     "likes": likes[]->username,
     "comments": count(comments),
-    "createdAt":_createdAt
+    "createdAt": _createdAt,
 `;
 
 export async function getFollowingPostsOf(username: string) {
@@ -34,9 +34,9 @@ export async function getPostById(id: string) {
     .fetch(
       `*[_type == "bookpost" && _id == "${id}"][0]{
       "id":_id,
-      "booktitle": booktitle,
-      "bookauthor": bookauthor,
-      "bookreview": bookreview,
+      booktitle,
+      bookauthor,
+      bookreview,
       "bookshort": comments[0].comment,
       "username": author->username,
       "userImage": author->image,
@@ -48,7 +48,6 @@ export async function getPostById(id: string) {
     )
     .then((post) => ({
       ...post,
-      likes: post.likes ?? [],
       image: urlFor(post.image),
     }));
 }

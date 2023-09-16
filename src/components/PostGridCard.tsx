@@ -1,3 +1,5 @@
+"use client";
+
 import { Simplepost } from "@/model/post";
 import Image from "next/image";
 import { useState } from "react";
