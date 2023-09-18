@@ -1,15 +1,14 @@
 "use client";
 
-import useSWR from "swr";
 import { PulseLoader } from "react-spinners";
-import { DetailUser } from "@/model/user";
 import Avatar from "./Avatar";
 import Link from "next/link";
 import ScrollCarousel from "./ui/ScrollCarousel";
+import useMe from "@/hooks/me";
 
 export default function Followingbar() {
-  const { data, isLoading } = useSWR<DetailUser>("/api/me");
-  const following = data?.following;
+  const { user, isLoading } = useMe();
+  const following = user?.following;
   //   console.log(data);
   return (
     <section className="w-full h-[120px] flex justify-center items-center rounded-md shadow-md p-3 mr-4 relative z-10">
