@@ -10,9 +10,8 @@ import ModalPortal from "./ui/ModalPortal";
 import PostModal from "./PostModal";
 import PostDetail from "./PostDetail";
 import ToggleButton from "./ui/ToggleButton";
-import { useSession } from "next-auth/react";
-import { useSWRConfig } from "swr";
 import usePosts from "@/hooks/posts";
+import useMe from "@/hooks/me";
 
 type Props = {
   post: Simplepost;
@@ -32,17 +31,17 @@ export default function PostListCard({ post, priority = false }: Props) {
     createdAt,
   } = post;
   const [openModal, setOpenModal] = useState(false);
-  const { data: session } = useSession();
-  const user = session?.user;
+  const { user, setBookmark } = useMe();
+  const { setLike } = usePosts();
 
   const liked = user ? likes.includes(user.username) : false;
-  const [saved, setSaved] = useState(false);
+  const saved = user?.bookmarks.includes(id) ?? false;
 
-  const { setLike } = usePosts();
   const handleLike = (like: boolean) => {
-    if (user) {
-      setLike(post, user.username, like);
-    }
+    user && setLike(post, user.username, like);
+  };
+  const handleBookmark = (bookmark: boolean) => {
+    user && setBookmark(id, bookmark);
   };
 
   return (
@@ -69,7 +68,7 @@ export default function PostListCard({ post, priority = false }: Props) {
         />
         <ToggleButton
           toggled={saved}
-          onToggled={setSaved}
+          onToggled={handleBookmark}
           onIcon={<RiBookmarkFill size={30} />}
           offIcon={<RiBookmarkLine size={30} />}
         />

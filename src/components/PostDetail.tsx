@@ -1,15 +1,15 @@
 import { FullPost, Simplepost } from "@/model/post";
 import { parseDate } from "@/util/date";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiSmile } from "react-icons/bi";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import Avatar from "./Avatar";
 import { DotLoader, BarLoader } from "react-spinners";
 import ToggleButton from "./ui/ToggleButton";
-import { useSession } from "next-auth/react";
 import usePosts from "@/hooks/posts";
+import useMe from "@/hooks/me";
 
 type Props = {
   post: Simplepost;
@@ -21,17 +21,17 @@ export default function PostDetail({ post }: Props) {
   const comments = data?.comments;
   const bookauthor = data?.bookauthor;
   const bookreview = data?.bookreview;
-  const { data: session } = useSession();
-  const user = session?.user;
+  const { setLike } = usePosts();
+  const { user, setBookmark } = useMe();
 
   const liked = user ? likes.includes(user.username) : false;
-  const [saved, setSaved] = useState(false);
+  const saved = user?.bookmarks.includes(id) ?? false;
 
-  const { setLike } = usePosts();
   const handleLike = (like: boolean) => {
-    if (user) {
-      setLike(post, user.username, like);
-    }
+    user && setLike(post, user.username, like);
+  };
+  const handleBookmark = (bookmark: boolean) => {
+    user && setBookmark(id, bookmark);
   };
 
   return (
@@ -85,7 +85,7 @@ export default function PostDetail({ post }: Props) {
               />
               <ToggleButton
                 toggled={saved}
-                onToggled={setSaved}
+                onToggled={handleBookmark}
                 onIcon={<RiBookmarkFill size={30} />}
                 offIcon={<RiBookmarkLine size={30} />}
               />
