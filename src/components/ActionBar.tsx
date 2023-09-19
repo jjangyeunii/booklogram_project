@@ -49,7 +49,7 @@ export default function ActionBar({ post, children, onComment }: Props) {
           likes ? likes.length : 0
         } like`}</p>
         {children}
-        <p className="mb-5 text-neutral-500 uppercase">
+        <p className="mt-1 mb-5 text-neutral-500 uppercase">
           {parseDate(createdAt)}
         </p>
       </div>

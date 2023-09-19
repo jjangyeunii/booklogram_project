@@ -36,6 +36,19 @@ export default function PostListCard({ post, priority = false }: Props) {
           <h2 className="text-xl font-bold truncate">{booktitle}</h2>
           <p className="ml-3 text-xl truncate">{bookshort}</p>
         </div>
+        {comments > 1 ? (
+          <button
+            className="flex font-bold mt-2 text-sky-500"
+            onClick={() => setOpenModal(true)}
+          >{`View all ${comments - 1} ${
+            comments - 1 === 1 ? "comment" : "comments"
+          }`}</button>
+        ) : (
+          <button
+            className="flex font-bold mt-2 text-sky-500"
+            onClick={() => setOpenModal(true)}
+          >{`View detail book review`}</button>
+        )}
       </ActionBar>
       {openModal && (
         <ModalPortal>
