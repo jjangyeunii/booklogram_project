@@ -1,10 +1,9 @@
-import { FullPost, Simplepost } from "@/model/post";
-import useSWR from "swr";
+import { Simplepost } from "@/model/post";
 import Avatar from "./Avatar";
-import { DotLoader, BarLoader } from "react-spinners";
+import { DotLoader } from "react-spinners";
 import ActionBar from "./ActionBar";
 import useFullPost from "@/hooks/post";
-import useMe from "@/hooks/me";
+import BarSpinner from "./BarSpinner";
 
 type Props = {
   post: Simplepost;
@@ -38,26 +37,26 @@ export default function PostDetail({ post }: Props) {
           )}
         </article>
         <section className="flex flex-col justify-between items-center basis-2/5">
-          {isLoading ? (
-            <div className="mt-36">
-              <BarLoader color="gray" />
-            </div>
-          ) : (
-            <ul className="w-full p-3">
-              {comments &&
-                comments?.map(({ comment, username, image }, idx) => (
-                  <li key={idx} className="flex items-center mb-3">
-                    <div className="flex justify-center items-center min-w-[50px] min-h-[50px] border-2 border-sky-500 rounded-full">
-                      <Avatar image={image} size="w-[40px] h-[40px]" />
-                    </div>
-                    <div className="ml-2">
-                      <h3 className="font-bold text-lg">{username}</h3>
-                      <p>{comment}</p>
-                    </div>
-                  </li>
-                ))}
-            </ul>
-          )}
+          <ul className="w-full p-3">
+            {isLoading && (
+              <div className="flex mt-24 justify-center">
+                <BarSpinner color="gray" />
+              </div>
+            )}
+            {comments &&
+              comments?.map(({ comment, username, image }, idx) => (
+                <li key={idx} className="flex items-center mb-3">
+                  <div className="flex justify-center items-center min-w-[50px] min-h-[50px] border-2 border-sky-500 rounded-full">
+                    <Avatar image={image} size="w-[40px] h-[40px]" />
+                  </div>
+                  <div className="ml-2">
+                    <h3 className="font-bold text-lg">{username}</h3>
+                    <p>{comment}</p>
+                  </div>
+                </li>
+              ))}
+          </ul>
+
           <ActionBar post={post} onComment={postComment} />
         </section>
       </section>
