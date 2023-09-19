@@ -2,11 +2,10 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ToggleButton from "./ui/ToggleButton";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import { parseDate } from "@/util/date";
-import { FormEvent } from "react";
-import { BiSmile } from "react-icons/bi";
 import { Simplepost, Comment } from "@/model/post";
 import usePosts from "@/hooks/posts";
 import useMe from "@/hooks/me";
+import CommentForm from "./CommentForm";
 
 type Props = {
   post: Simplepost;
@@ -53,20 +52,7 @@ export default function ActionBar({ post, children, onComment }: Props) {
           {parseDate(createdAt)}
         </p>
       </div>
-      <form
-        className="w-full flex items-center justify-between px-2 border-t border-neutral-400"
-        onClick={(e: FormEvent) => e.preventDefault()}
-      >
-        <BiSmile size={35} />
-        <input
-          className="w-full p-3 mx-2 text-lg border-none outline-none"
-          type="text"
-          placeholder="Add a bookcomment..."
-        />
-        <button className="font-bold text-sky-500 text-lg hover:text-sky-300">
-          Post
-        </button>
-      </form>
+      <CommentForm onPostComment={() => {}} />
     </section>
   );
 }
