@@ -3,6 +3,8 @@ import useSWR from "swr";
 import Avatar from "./Avatar";
 import { DotLoader, BarLoader } from "react-spinners";
 import ActionBar from "./ActionBar";
+import useFullPost from "@/hooks/post";
+import useMe from "@/hooks/me";
 
 type Props = {
   post: Simplepost;
@@ -10,10 +12,16 @@ type Props = {
 
 export default function PostDetail({ post }: Props) {
   const { id, username, userImage, booktitle } = post;
-  const { data, isLoading } = useSWR<FullPost>(`/api/posts/${id}`);
+  const { post: data, isLoading, postComment } = useFullPost(id);
+  const { user } = useMe();
   const comments = data?.comments;
   const bookauthor = data?.bookauthor;
   const bookreview = data?.bookreview;
+
+  const handlePostComment = (comment: string) => {
+    user &&
+      postComment({ comment, username: user.username, image: user.image });
+  };
 
   return (
     <section className="flex flex-col w-full h-full">
@@ -43,8 +51,8 @@ export default function PostDetail({ post }: Props) {
           ) : (
             <ul className="w-full p-3">
               {comments &&
-                comments?.map(({ comment, image }, idx) => (
-                  <li key={idx} className="flex items-center">
+                comments?.map(({ comment, username, image }, idx) => (
+                  <li key={idx} className="flex items-center mb-3">
                     <div className="flex justify-center items-center min-w-[50px] min-h-[50px] border-2 border-sky-500 rounded-full">
                       <Avatar image={image} size="w-[40px] h-[40px]" />
                     </div>
@@ -56,7 +64,7 @@ export default function PostDetail({ post }: Props) {
                 ))}
             </ul>
           )}
-          <ActionBar post={post} onComment={() => {}} />
+          <ActionBar post={post} onComment={handlePostComment} />
         </section>
       </section>
     </section>

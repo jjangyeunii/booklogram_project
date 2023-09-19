@@ -10,7 +10,7 @@ import CommentForm from "./CommentForm";
 type Props = {
   post: Simplepost;
   children?: React.ReactNode;
-  onComment: (comment: Comment) => void;
+  onComment: (comment: string) => void;
 };
 
 export default function ActionBar({ post, children, onComment }: Props) {
@@ -52,7 +52,7 @@ export default function ActionBar({ post, children, onComment }: Props) {
           {parseDate(createdAt)}
         </p>
       </div>
-      <CommentForm onPostComment={() => {}} />
+      <CommentForm onPostComment={onComment} />
     </section>
   );
 }

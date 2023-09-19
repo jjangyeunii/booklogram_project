@@ -17,7 +17,7 @@ export default function CommentForm({ onPostComment }: Props) {
   return (
     <form
       className="w-full flex items-center justify-between px-2 border-t border-neutral-400"
-      onClick={handleSubmit}
+      onSubmit={handleSubmit}
     >
       <BiSmile size={35} />
       <input
