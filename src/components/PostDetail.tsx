@@ -13,21 +13,15 @@ type Props = {
 export default function PostDetail({ post }: Props) {
   const { id, username, userImage, booktitle } = post;
   const { post: data, isLoading, postComment } = useFullPost(id);
-  const { user } = useMe();
   const comments = data?.comments;
   const bookauthor = data?.bookauthor;
   const bookreview = data?.bookreview;
-
-  const handlePostComment = (comment: string) => {
-    user &&
-      postComment({ comment, username: user.username, image: user.image });
-  };
 
   return (
     <section className="flex flex-col w-full h-full">
       <div className="w-full h-[80px] flex items-center p-3 border-b border-neutral-300">
         <Avatar image={userImage} size="w-[58px] h-[58px]" />
-        <p className="ml-3 font-bold text-xl">{post.username}</p>
+        <p className="ml-3 font-bold text-xl">{username}</p>
       </div>
       <section className="flex h-[calc(100%-80px)] bg-neutral-50">
         <article className="relative flex flex-col items-center basis-3/5 border-r border-neutral-300">
@@ -64,7 +58,7 @@ export default function PostDetail({ post }: Props) {
                 ))}
             </ul>
           )}
-          <ActionBar post={post} onComment={handlePostComment} />
+          <ActionBar post={post} onComment={postComment} />
         </section>
       </section>
     </section>

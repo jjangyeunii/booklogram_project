@@ -10,7 +10,7 @@ import CommentForm from "./CommentForm";
 type Props = {
   post: Simplepost;
   children?: React.ReactNode;
-  onComment: (comment: string) => void;
+  onComment: (comment: Comment) => void;
 };
 
 export default function ActionBar({ post, children, onComment }: Props) {
@@ -27,6 +27,10 @@ export default function ActionBar({ post, children, onComment }: Props) {
   const handleBookmark = (bookmark: boolean) => {
     user && setBookmark(id, bookmark);
   };
+  const handleComment = (comment: string) => {
+    user && onComment({ username: user.username, image: user.image, comment });
+  };
+
   return (
     <section className="w-full ">
       <div className="flex py-3 px-4 justify-between">
@@ -52,7 +56,7 @@ export default function ActionBar({ post, children, onComment }: Props) {
           {parseDate(createdAt)}
         </p>
       </div>
-      <CommentForm onPostComment={onComment} />
+      <CommentForm onPostComment={handleComment} />
     </section>
   );
 }

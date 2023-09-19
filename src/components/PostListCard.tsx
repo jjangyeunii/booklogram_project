@@ -1,4 +1,4 @@
-import { Simplepost } from "@/model/post";
+import { Comment, Simplepost } from "@/model/post";
 import Avatar from "./Avatar";
 import Image from "next/image";
 import { useState } from "react";
@@ -18,7 +18,7 @@ export default function PostListCard({ post, priority = false }: Props) {
   const [openModal, setOpenModal] = useState(false);
   const { postComment } = usePosts();
 
-  const handlePostComment = (comment: string) => {
+  const handlePostComment = (comment: Comment) => {
     postComment(post, comment);
   };
 

@@ -1,5 +1,5 @@
 import { useCacheKeys } from "@/context/CacheKeysContext";
-import { Simplepost } from "@/model/post";
+import { Comment, Simplepost } from "@/model/post";
 import useSWR from "swr";
 
 async function updateLike(id: string, like: boolean) {
@@ -42,14 +42,14 @@ export default function usePosts() {
     });
   };
 
-  const postComment = (post: Simplepost, comment: string) => {
+  const postComment = (post: Simplepost, comment: Comment) => {
     const newPost = {
       ...post,
       comments: post.comments + 1,
     };
     const newPosts = posts?.map((p) => (p.id === post.id ? newPost : p));
 
-    return mutate(addComment(post.id, comment), {
+    return mutate(addComment(post.id, comment.comment), {
       optimisticData: newPosts,
       populateCache: false,
       revalidate: false,
