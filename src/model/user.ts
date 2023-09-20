@@ -14,10 +14,7 @@ export type DetailUser = AuthUser & {
   bookmarks: string[];
 };
 
-export type SearchResultUser = {
-  username: string;
-  name: string;
-  image?: string;
+export type SearchResultUser = AuthUser & {
   following: number;
   followers: number;
 };

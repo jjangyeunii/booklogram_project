@@ -52,6 +52,7 @@ export async function getUserProfile(username: string) {
   return client
     .fetch(
       `*[_type == "user" && username == "${username}"][0]{
+      "id": _id,
       username,
       name,
       image,

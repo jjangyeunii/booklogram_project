@@ -1,5 +1,6 @@
 import { ProfileUser } from "@/model/user";
 import Avatar from "./Avatar";
+import FollowButton from "./FollowButton";
 
 type Props = {
   user: ProfileUser;
@@ -13,9 +14,7 @@ export default function UserProfile({ user }: Props) {
       <div className="flex flex-col items-center md:ml-6 md:items-start">
         <div className="flex flex-col items-center my-3 gap-3 md:flex-row">
           <h1 className="text-2xl">{username}</h1>
-          <button className="bg-sky-500 text-white font-bold text-xl py-1 px-6 rounded-md">
-            Follow
-          </button>
+          <FollowButton user={user} />
         </div>
         <p className="text-neutral-500">{`${posts} ${
           posts <= 1 ? "post" : "posts"
