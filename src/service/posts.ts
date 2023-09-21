@@ -1,5 +1,5 @@
 import { Comment, Simplepost } from "@/model/post";
-import { client, urlFor } from "./sanity";
+import { assetsURL, client, urlFor } from "./sanity";
 
 const simplePostprojection = `
     "id":_id,
@@ -132,4 +132,45 @@ export async function addComment(
       },
     ])
     .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function createPost(
+  userID: string,
+  booktitle: string,
+  bookauthor: string,
+  bookshort: string,
+  bookreview: string,
+  file: Blob
+) {
+  console.log(userID, booktitle, bookauthor, bookshort, bookreview, file);
+
+  return fetch(assetsURL, {
+    method: "POST",
+    headers: {
+      "content-type": file.type,
+      authorization: `Bearer ${process.env.SANITY_SECRET_TOKEN}`,
+    },
+    body: file,
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      return client.create(
+        {
+          _type: "bookpost",
+          author: { _ref: userID },
+          photo: { asset: { _ref: result.document._id } },
+          booktitle: booktitle,
+          bookauthor: bookauthor,
+          bookreview: bookreview,
+          comments: [
+            {
+              comment: bookshort,
+              author: { _ref: userID, _type: "reference" },
+            },
+          ],
+          likes: [],
+        },
+        { autoGenerateArrayKeys: true }
+      );
+    });
 }
