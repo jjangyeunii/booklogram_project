@@ -3,8 +3,10 @@
 import { AuthUser } from "@/model/user";
 import Avatar from "./Avatar";
 import { FaPhotoVideo } from "react-icons/fa";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { FadeLoader } from "react-spinners";
 
 type Props = {
   user: AuthUser;
@@ -16,6 +18,11 @@ const BUTTON_CLASS =
 export default function NewPost({ user: { username, image } }: Props) {
   const [file, setFile] = useState<File>();
   const [dragging, setDragging] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
+  const textRef = useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
@@ -41,14 +48,44 @@ export default function NewPost({ user: { username, image } }: Props) {
       setFile(files[0]);
     }
   };
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("bookshort", textRef.current?.value ?? "");
+
+    fetch("/api/posts/", { method: "POST", body: formData })
+      .then((res) => {
+        if (!res.ok) {
+          setError(`${res.status} ${res.statusText}`);
+          return;
+        }
+        router.push("/");
+      })
+      .catch((error) => setError(error.toString()))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <section className="w-full flex flex-col items-center mt-6">
+      {loading && (
+        <div className="absolute inset-0 z-20 pl-[50%] pt-[30%] bg-neutral-500/20">
+          <FadeLoader color="gray" />
+        </div>
+      )}
+      {error && (
+        <p className="w-full bg-red-100 text-red-600 text-center p-4 mb-4 font-bold">
+          {error}
+        </p>
+      )}
       <div className="w-full max-w-xl flex items-center border border-neutral-300 p-3 rounded-t-lg">
         <Avatar size="w-[65px] h-[65px]" image={image} />
         <p className="ml-3 font-bold">{username}</p>
       </div>
-      <form className="w-full max-w-xl flex flex-col">
+      <form className="w-full max-w-xl flex flex-col" onSubmit={handleSubmit}>
         <input
           className="hidden"
           type="file"
@@ -95,20 +132,17 @@ export default function NewPost({ user: { username, image } }: Props) {
           rows={10}
           required
           placeholder="Write a caption..."
+          ref={textRef}
         />
         <section className="w-full flex justify-around">
           <button
             className={`${BUTTON_CLASS} rounded-bl-md`}
-            onClick={() => {
-              setFile(undefined);
-            }}
+            type="reset"
+            onClick={() => setFile(undefined)}
           >
             Cancel
           </button>
-          <button
-            className={`${BUTTON_CLASS} rounded-br-md`}
-            onClick={() => {}}
-          >
+          <button type="submit" className={`${BUTTON_CLASS} rounded-br-md`}>
             Publish
           </button>
         </section>
