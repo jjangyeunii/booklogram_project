@@ -20,7 +20,10 @@ export default function NewPost({ user: { username, image } }: Props) {
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
-  const textRef = useRef<HTMLTextAreaElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const authorRef = useRef<HTMLInputElement>(null);
+  const shortRef = useRef<HTMLTextAreaElement>(null);
+  const reviewRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +58,10 @@ export default function NewPost({ user: { username, image } }: Props) {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("bookshort", textRef.current?.value ?? "");
+    formData.append("booktitle", titleRef.current?.value ?? "");
+    formData.append("bookauthor", authorRef.current?.value ?? "");
+    formData.append("bookshort", shortRef.current?.value ?? "");
+    formData.append("bookreview", reviewRef.current?.value ?? "");
 
     fetch("/api/posts/", { method: "POST", body: formData })
       .then((res) => {
@@ -70,7 +76,7 @@ export default function NewPost({ user: { username, image } }: Props) {
   };
 
   return (
-    <section className="w-full flex flex-col items-center mt-6">
+    <section className="w-full flex flex-col items-center my-6">
       {loading && (
         <div className="absolute inset-0 z-20 pl-[50%] pt-[30%] bg-neutral-500/20">
           <FadeLoader color="gray" />
@@ -125,14 +131,39 @@ export default function NewPost({ user: { username, image } }: Props) {
             </div>
           )}
         </label>
+        <input
+          className="outline-none text-lg border border-neutral-300 p-2"
+          id="input-title"
+          type="text"
+          required
+          placeholder="Write a book title..."
+          ref={titleRef}
+        />
+        <input
+          className="outline-none text-lg border border-neutral-300 p-2"
+          id="input-author"
+          type="text"
+          required
+          placeholder="Write a book author..."
+          ref={authorRef}
+        />
         <textarea
           className="outline-none text-lg border border-neutral-300 p-2"
           name="text"
-          id="input-text"
-          rows={10}
+          id="input-short"
+          rows={1}
           required
           placeholder="Write a caption..."
-          ref={textRef}
+          ref={shortRef}
+        />
+        <textarea
+          className="outline-none text-lg border border-neutral-300 p-2"
+          name="text"
+          id="input-review"
+          rows={10}
+          required
+          placeholder="Write a book review..."
+          ref={reviewRef}
         />
         <section className="w-full flex justify-around">
           <button
