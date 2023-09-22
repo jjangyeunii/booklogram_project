@@ -1,15 +1,11 @@
 "use client";
 
-import { Simplepost } from "@/model/post";
 import { HashLoader } from "react-spinners";
-import useSWR from "swr";
 import PostListCard from "./PostListCard";
 import usePosts from "@/hooks/posts";
 
 export default function PostList() {
   const { posts, isLoading } = usePosts();
-  //   console.log(posts);
-
   return (
     <section className="w-full flex flex-col items-center justify-center">
       {isLoading ? (

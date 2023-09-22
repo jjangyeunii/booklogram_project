@@ -11,7 +11,6 @@ export default async function Home() {
   if (!user) {
     redirect("/auth/signin");
   }
-  // console.log(session);
   return (
     <section className="w-full flex flex-col md:flex-row px-6">
       <div className="w-full basis-3/4 min-w-0 py-6">

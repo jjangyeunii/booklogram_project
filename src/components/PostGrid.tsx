@@ -4,7 +4,6 @@ import usePosts from "@/hooks/posts";
 
 export default function PostGrid() {
   const { posts, isLoading } = usePosts();
-  // console.log(posts);
   return (
     <section className="w-full text-center">
       {isLoading && (

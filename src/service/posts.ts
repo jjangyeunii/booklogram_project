@@ -142,8 +142,6 @@ export async function createPost(
   bookreview: string,
   file: Blob
 ) {
-  console.log(userID, booktitle, bookauthor, bookshort, bookreview, file);
-
   return fetch(assetsURL, {
     method: "POST",
     headers: {

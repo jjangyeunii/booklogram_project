@@ -23,7 +23,6 @@ const OAuth_style = [
 ];
 
 export default function Signin({ providers, callbackUrl }: Props) {
-  //   console.log(providers);
   return (
     <section className="flex flex-col m-7 gap-5">
       {Object.values(providers).map(({ id, name }) => (

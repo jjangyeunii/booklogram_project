@@ -9,7 +9,6 @@ import useMe from "@/hooks/me";
 export default function Followingbar() {
   const { user, isLoading } = useMe();
   const following = user?.following;
-  //   console.log(data);
   return (
     <section className="w-full h-[120px] flex justify-center items-center rounded-md shadow-md p-3 mr-4 relative z-10">
       {isLoading ? (

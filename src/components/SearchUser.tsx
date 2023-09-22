@@ -15,7 +15,6 @@ export default function SearchUser() {
     isLoading,
     error,
   } = useSWR<SearchResultUser[]>(`/api/search/${debouncedKeyword}`);
-  // console.log(users);
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
