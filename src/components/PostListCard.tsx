@@ -1,4 +1,4 @@
-import { Comment, Simplepost } from "@/model/post";
+import { Simplepost } from "@/model/post";
 import Avatar from "./Avatar";
 import Image from "next/image";
 import { useState } from "react";
@@ -6,7 +6,6 @@ import ModalPortal from "./ui/ModalPortal";
 import PostModal from "./PostModal";
 import PostDetail from "./PostDetail";
 import ActionBar from "./ActionBar";
-import usePosts from "@/hooks/posts";
 
 type Props = {
   post: Simplepost;
@@ -16,11 +15,6 @@ type Props = {
 export default function PostListCard({ post, priority = false }: Props) {
   const { username, userImage, image, booktitle, bookshort, comments } = post;
   const [openModal, setOpenModal] = useState(false);
-  const { postComment } = usePosts();
-
-  const handlePostComment = (comment: Comment) => {
-    postComment(post, comment);
-  };
 
   return (
     <article className="w-full flex flex-col justify-center items-center rounded-md bg-neutral-50 shadow-md mr-4 border border-gray-200">
@@ -37,7 +31,7 @@ export default function PostListCard({ post, priority = false }: Props) {
         priority={priority}
         onClick={() => setOpenModal(true)}
       />
-      <ActionBar post={post} onComment={handlePostComment}>
+      <ActionBar post={post}>
         <div className="flex items-center">
           <h2 className="text-xl font-bold truncate">{booktitle}</h2>
           <p className="ml-3 text-xl truncate">{bookshort}</p>
