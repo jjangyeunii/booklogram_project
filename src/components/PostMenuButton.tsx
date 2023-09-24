@@ -14,7 +14,7 @@ export default function PostMenuButton() {
   const handleClick = (e: React.MouseEvent) => {
     setOpenMenuModal(true);
     setOffsetX(Math.floor(e.currentTarget.getBoundingClientRect().left));
-    setOffsetY(Math.floor(e.currentTarget.getBoundingClientRect().top));
+    setOffsetY(Math.floor(e.currentTarget.getBoundingClientRect().bottom));
   };
   return (
     <section>

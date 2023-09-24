@@ -15,7 +15,7 @@ export default function PostMenu({ offsetX, offsetY, onClose }: Props) {
   return (
     <section
       className={`fixed flex flex-col items-center w-[150px] h-[125px] bg-neutral-100 rounded-lg shadow-lg`}
-      style={{ top: `${offsetY + 30}px`, left: `${offsetX - 120}px` }}
+      style={{ top: `${offsetY + 5}px`, left: `${offsetX - 120}px` }}
     >
       <button
         className={`${BUTTON_CLASS} border-b-2 text-sky-600`}
