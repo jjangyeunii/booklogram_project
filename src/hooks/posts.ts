@@ -17,6 +17,12 @@ async function addComment(id: string, comment: string) {
   }).then((res) => res.json());
 }
 
+async function postDelete(id: string) {
+  return fetch(`/api/posts/${id}`, {
+    method: "DELETE",
+  }).then((res) => res.json());
+}
+
 export default function usePosts() {
   const cacheKeys = useCacheKeys();
   const {
@@ -63,5 +69,18 @@ export default function usePosts() {
     },
     [posts, mutate]
   );
-  return { posts, isLoading, error, setLike, postComment };
+
+  const setDeletePost = useCallback(
+    (post: Simplepost) => {
+      const deletedPosts = posts?.filter((p) => p.id !== post.id);
+      return mutate(postDelete(post.id), {
+        optimisticData: deletedPosts,
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      });
+    },
+    [posts, mutate]
+  );
+  return { posts, isLoading, error, setLike, postComment, setDeletePost };
 }

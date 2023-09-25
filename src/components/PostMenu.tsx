@@ -1,5 +1,7 @@
 "use client";
 
+import usePosts from "@/hooks/posts";
+import { Simplepost } from "@/model/post";
 import { Dispatch, SetStateAction } from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
@@ -7,11 +9,19 @@ type Props = {
   onClose: Dispatch<SetStateAction<boolean>>;
   offsetX: number;
   offsetY: number;
+  post: Simplepost;
 };
 
-const BUTTON_CLASS = "flex items-center justify-center w-full p-2";
+const BUTTON_CLASS =
+  "flex items-center justify-center w-full p-2 hover:font-bold";
 
-export default function PostMenu({ offsetX, offsetY, onClose }: Props) {
+export default function PostMenu({ offsetX, offsetY, onClose, post }: Props) {
+  const { setDeletePost } = usePosts();
+  const handleDelete = () => {
+    if (window.confirm("포스트를 정말 삭제하시겠습니까?")) {
+      setDeletePost(post);
+    }
+  };
   return (
     <section
       className={`fixed flex flex-col items-center w-[150px] h-[125px] bg-neutral-100 rounded-lg shadow-lg`}
@@ -26,7 +36,7 @@ export default function PostMenu({ offsetX, offsetY, onClose }: Props) {
       </button>
       <button
         className={`${BUTTON_CLASS} border-b-2  text-red-600`}
-        onClick={() => {}}
+        onClick={handleDelete}
       >
         <BsFillTrashFill />
         <p className="ml-1">Delete</p>

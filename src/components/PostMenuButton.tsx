@@ -1,12 +1,17 @@
 "use client";
 
-import { MouseEventHandler, useRef, useState } from "react";
+import { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import ModalPortal from "./ui/ModalPortal";
 import PostMenuModal from "./PostMenuModal";
 import PostMenu from "./PostMenu";
+import { Simplepost } from "@/model/post";
 
-export default function PostMenuButton() {
+type Props = {
+  post: Simplepost;
+};
+
+export default function PostMenuButton({ post }: Props) {
   const [openMenuModal, setOpenMenuModal] = useState(false);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
@@ -28,6 +33,7 @@ export default function PostMenuButton() {
               offsetX={offsetX}
               offsetY={offsetY}
               onClose={setOpenMenuModal}
+              post={post}
             />
           </PostMenuModal>
         </ModalPortal>

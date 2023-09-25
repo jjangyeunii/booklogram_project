@@ -172,3 +172,10 @@ export async function createPost(
       );
     });
 }
+
+export async function deletePost(postID: string) {
+  return client
+    .delete(postID)
+    .then(() => console.log("post is deleted"))
+    .catch((error) => console.error("Delete failed: ", error.message));
+}

@@ -30,7 +30,7 @@ export default function PostListCard({ post, priority = false }: Props) {
           <Avatar image={userImage} size="w-[50px] h-[50px]" />
           <p className="ml-3 font-bold text-xl">{post.username}</p>
         </div>
-        {isMyPost && <PostMenuButton />}
+        {isMyPost && <PostMenuButton post={post} />}
       </div>
       <Image
         className="w-full object-cover aspect-square"

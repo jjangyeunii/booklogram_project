@@ -1,7 +1,5 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextRequest, NextResponse } from "next/server";
-import { getPostById } from "@/service/posts";
+import { deletePost, getPostById } from "@/service/posts";
 import { withSessionUser } from "@/util/session";
 
 type Context = {
@@ -11,5 +9,13 @@ type Context = {
 export async function GET(_: NextRequest, context: Context) {
   return withSessionUser(async () =>
     getPostById(context.params.id).then((data) => NextResponse.json(data))
+  );
+}
+
+export async function DELETE(_: NextRequest, context: Context) {
+  return withSessionUser(async () =>
+    deletePost(context.params.id).then(() =>
+      NextResponse.json({ success: true }, { status: 200 })
+    )
   );
 }
