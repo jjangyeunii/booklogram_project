@@ -179,3 +179,26 @@ export async function deletePost(postID: string) {
     .then(() => console.log("post is deleted"))
     .catch((error) => console.error("Delete failed: ", error.message));
 }
+
+export async function updatePost(
+  postID: string,
+  userID: string,
+  title: string,
+  author: string,
+  review: string,
+  comment: Comment
+) {
+  return client
+    .patch(postID)
+    .set({ booktitle: title, bookauthor: author, bookreview: review })
+    .insert("replace", "comments[0]", [
+      {
+        comment,
+        author: {
+          _ref: userID,
+          _type: "reference",
+        },
+      },
+    ])
+    .commit();
+}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deletePost, getPostById } from "@/service/posts";
+import { deletePost, getPostById, updatePost } from "@/service/posts";
 import { withSessionUser } from "@/util/session";
 
 type Context = {
@@ -18,4 +18,31 @@ export async function DELETE(_: NextRequest, context: Context) {
       NextResponse.json({ success: true }, { status: 200 })
     )
   );
+}
+
+export async function PATCH(req: NextRequest, context: Context) {
+  return withSessionUser(async (user) => {
+    const { title, author, short, review } = await req.json();
+    if (
+      title === null ||
+      author === null ||
+      short === null ||
+      review === null
+    ) {
+      return new Response("Bad Request", { status: 400 });
+    }
+    const comment = {
+      username: user.name,
+      image: user.image,
+      comment: short,
+    };
+    return updatePost(
+      context.params.id,
+      user.id,
+      title,
+      author,
+      review,
+      comment
+    ).then((data) => NextResponse.json(data));
+  });
 }
