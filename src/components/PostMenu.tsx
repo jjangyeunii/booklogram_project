@@ -2,6 +2,7 @@
 
 import usePosts from "@/hooks/posts";
 import { Simplepost } from "@/model/post";
+import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
@@ -27,13 +28,13 @@ export default function PostMenu({ offsetX, offsetY, onClose, post }: Props) {
       className={`fixed flex flex-col items-center w-[150px] h-[125px] bg-neutral-100 rounded-lg shadow-lg`}
       style={{ top: `${offsetY + 5}px`, left: `${offsetX - 120}px` }}
     >
-      <button
+      <Link
+        href={`/update/${post.id}`}
         className={`${BUTTON_CLASS} border-b-2 text-sky-600`}
-        onClick={() => {}}
       >
         <BsFillPencilFill />
         <p className="ml-1">Edit</p>
-      </button>
+      </Link>
       <button
         className={`${BUTTON_CLASS} border-b-2  text-red-600`}
         onClick={handleDelete}
