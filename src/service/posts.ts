@@ -186,7 +186,7 @@ export async function updatePost(
   title: string,
   author: string,
   review: string,
-  comment: Comment
+  comment: string
 ) {
   return client
     .patch(postID)
@@ -200,5 +200,5 @@ export async function updatePost(
         },
       },
     ])
-    .commit();
+    .commit({ autoGenerateArrayKeys: true });
 }

@@ -31,18 +31,8 @@ export async function PATCH(req: NextRequest, context: Context) {
     ) {
       return new Response("Bad Request", { status: 400 });
     }
-    const comment = {
-      username: user.name,
-      image: user.image,
-      comment: short,
-    };
-    return updatePost(
-      context.params.id,
-      user.id,
-      title,
-      author,
-      review,
-      comment
-    ).then((data) => NextResponse.json(data));
+    return updatePost(context.params.id, user.id, title, author, review, short)
+      .then((data) => NextResponse.json(data))
+      .catch((error) => new Response(JSON.stringify(error), { status: 500 }));
   });
 }

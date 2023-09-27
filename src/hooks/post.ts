@@ -9,6 +9,19 @@ async function addComment(id: string, comment: string) {
   }).then((res) => res.json());
 }
 
+async function postUpdate(
+  id: string,
+  title: string,
+  author: string,
+  short: string,
+  review: string
+) {
+  return fetch(`/api/posts/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ title, author, short, review }),
+  }).then((res) => res.json());
+}
+
 export default function useFullPost(postId: string) {
   const {
     data: post,
@@ -35,5 +48,26 @@ export default function useFullPost(postId: string) {
     },
     [post, mutate, globalMutate]
   );
-  return { post, isLoading, error, postComment };
+
+  const setUppdatePost = useCallback(
+    (title: string, author: string, short: string, review: string) => {
+      if (!post) return;
+      const newPost = {
+        ...post,
+        booktitle: title,
+        bookauthor: author,
+        bookreview: review,
+        bookshort: short,
+      };
+
+      return mutate(postUpdate(post.id, title, author, short, review), {
+        optimisticData: newPost,
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      }).then(() => globalMutate("/api/posts"));
+    },
+    [post, mutate, globalMutate]
+  );
+  return { post, isLoading, error, postComment, setUppdatePost };
 }

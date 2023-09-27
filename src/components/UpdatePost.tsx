@@ -2,10 +2,10 @@
 
 import { AuthUser } from "@/model/user";
 import Avatar from "./Avatar";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FadeLoader } from "react-spinners";
+import { ClipLoader, FadeLoader } from "react-spinners";
 import useFullPost from "@/hooks/post";
 
 type Props = {
@@ -20,19 +20,31 @@ export default function UpdatePost({
   user: { username, image },
   postId,
 }: Props) {
-  const { post, isLoading } = useFullPost(postId);
+  const { post, isLoading, setUppdatePost } = useFullPost(postId);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
-  const [titleValue, setTitleValue] = useState(post?.booktitle);
-  const [authorValue, setAuthorValue] = useState(post?.bookauthor);
-  const [shortValue, setShortValue] = useState(post?.bookshort);
-  const [reviewValue, setReviewValue] = useState(post?.bookreview);
+  const [titleValue, setTitleValue] = useState("");
+  const [authorValue, setAuthorValue] = useState("");
+  const [shortValue, setShortValue] = useState("");
+  const [reviewValue, setReviewValue] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    if (!post) return;
+    setTitleValue(post.booktitle);
+    setAuthorValue(post.bookauthor);
+    setShortValue(post.bookshort);
+    setReviewValue(post.bookreview);
+  }, [post]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     // client에서 patch 요청 구현하기
+    setUppdatePost(titleValue, authorValue, shortValue, reviewValue)
+      ?.then(() => router.push("/"))
+      .catch((error) => setError(error.toString()))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -51,6 +63,11 @@ export default function UpdatePost({
         <Avatar size="w-[65px] h-[65px]" image={image} />
         <p className="ml-3 font-bold">{username}</p>
       </div>
+      {isLoading && (
+        <div className="w-full max-w-xl flex items-center justify-center h-[500px]">
+          <ClipLoader color="gray" size={60} />
+        </div>
+      )}
       {post && (
         <div className="relative w-full max-w-xl aspect-square">
           <Image
